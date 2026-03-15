@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour Insel - Sri Lanka</title>
+    <script src="skiko.js"></script>
+    <style>
+        /* 1. Reset and Full Screen setup */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #f0f2f5; /* Background color matching your brand */
+            font-family: sans-serif;
+        }
+
+        /* 2. The Canvas - Scaled to Viewport */
+        #ComposeTarget {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+            outline: none;
+        }
+
+        /* 3. Loading Indicator */
+        #loading-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #ccc;
+            border-top: 5px solid #2ecc71; /* Green color for Sri Lanka vibes */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            margin-top: 15px;
+            color: #555;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div id="loading-container">
+    <div class="spinner"></div>
+    <p class="loading-text">Exploring Sri Lanka...</p>
+</div>
+
+<canvas id="ComposeTarget"></canvas>
+
+<script src="KmpApp2.js"></script>
+
+<script>
+    /* Simple script to hide the loader once the canvas starts drawing.
+       Note: Compose handles the removal of the loader usually,
+       but this is a safety fallback.
+    */
+    window.onload = function() {
+        // Give it a tiny delay to ensure smooth transition
+        setTimeout(() => {
+            const loader = document.getElementById('loading-container');
+            if (loader) loader.style.display = 'none';
+        }, 1000);
+    };
+</script>
+</body>
+</html>
