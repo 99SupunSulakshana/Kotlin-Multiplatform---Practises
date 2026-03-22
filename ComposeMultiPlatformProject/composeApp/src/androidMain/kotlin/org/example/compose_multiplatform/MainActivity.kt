@@ -25,6 +25,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.arkivanov.decompose.defaultComponentContext
+import com.arkivanov.decompose.retainedComponent
 import com.seiko.imageloader.ImageLoader
 import com.seiko.imageloader.LocalImageLoader
 import com.seiko.imageloader.cache.memory.maxSizePercent
@@ -34,13 +36,20 @@ import com.seiko.imageloader.intercept.imageMemoryCacheConfig
 import com.seiko.imageloader.intercept.painterMemoryCacheConfig
 import com.seiko.imageloader.option.androidContext
 import okio.Path.Companion.toOkioPath
+import org.example.compose_multiplatform.root.DefaultRootComponent
+import org.example.compose_multiplatform.root.RootContent
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-
+        val root = retainedComponent { componentContext ->
+            DefaultRootComponent(
+                componentContext = componentContext,
+                homeViewModel = HomeViewModel()
+            )
+        }
         setContent {
             CompositionLocalProvider(
                 LocalImageLoader provides remember { generateImageLoader() },
@@ -69,7 +78,7 @@ class MainActivity : ComponentActivity() {
                                .background(Color.Gray.copy(0.1f))
                                .padding(innerPadding)
                        ){
-                           App()
+                           RootContent(root, modifier = Modifier)
                        }
                    }
                 )
@@ -107,5 +116,5 @@ class MainActivity : ComponentActivity() {
 @Preview
 @Composable
 fun AppAndroidPreview() {
-    App()
+  //  App()
 }

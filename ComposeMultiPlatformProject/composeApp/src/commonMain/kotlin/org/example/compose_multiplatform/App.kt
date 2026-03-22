@@ -2,6 +2,7 @@ package org.example.compose_multiplatform
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
@@ -19,8 +20,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
@@ -52,20 +55,21 @@ import org.jetbrains.compose.resources.painterResource
 import kotlinproject.composeapp.generated.resources.Res
 import kotlinproject.composeapp.generated.resources.compose_multiplatform
 import kotlinx.coroutines.launch
+import org.example.compose_multiplatform.data.Product
+import org.example.compose_multiplatform.list.ListComponent
 
-@Composable
-@Preview
-fun App() {
-    MaterialTheme {
-        AppContent(homeViewModel = HomeViewModel())
-    }
-}
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppContent(homeViewModel: HomeViewModel) {
-    val products = homeViewModel.products.collectAsState()
+fun AppContent(
+    products: State<ListComponent.Model>,
+    lazyListScrollBar: (@Composable (LazyListState, Modifier) -> Unit)? = null,
+    lazyGridScrollBar: (@Composable (LazyGridState, Modifier) -> Unit)? = null,
+    scrollBar: (@Composable (ScrollState, Modifier) -> Unit)? = null,
+    onItemClicked: (Product) -> Unit
+) {
+
 
     BoxWithConstraints {
         val scope = this
@@ -112,7 +116,7 @@ fun AppContent(homeViewModel: HomeViewModel) {
                     ) {}
                 }
                 items(
-                    items = products.value,
+                    items = products.value.items,
                     key = { product -> product.id.toString() }) { product ->
                     Card(
                         shape = RoundedCornerShape(15.dp),

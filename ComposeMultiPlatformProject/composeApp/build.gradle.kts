@@ -40,16 +40,18 @@ kotlin {
          }
     }
 
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        browser()
-    }
-    
+//    @OptIn(ExperimentalWasmDsl::class)
+//    wasmJs {
+//        browser()
+//    }
+
     sourceSets {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
             implementation("io.ktor:ktor-client-okhttp:3.4.0")
+            implementation("com.arkivanov.decompose:decompose:3.4.0")
+            implementation("com.arkivanov.decompose:extensions-compose-experimental:3.4.0")
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -71,6 +73,10 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.mvvm.core)
             implementation(libs.image.loader)
+            implementation("com.arkivanov.decompose:decompose:3.4.0")
+            implementation("com.arkivanov.decompose:extensions-compose-experimental:3.4.0")
+//            implementation("org.jetbrains.compose.material3:material3-window-size-class:1.7.3")
+            implementation("dev.chrisbanes.material3:material3-window-size-class-multiplatform:0.5.0")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
